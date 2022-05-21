@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(breakout)
+include_directories(include)
+file(GLOB SRC src/*.cpp)
+add_executable(breakout ${SRC})
+target_link_libraries(breakout ncurses)
