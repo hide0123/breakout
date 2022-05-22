@@ -1,10 +1,6 @@
-#include <ncurses.h>
-#include <thread>
-#include <cmath>
-
 #include "breakout.hpp"
 
-Breakout::Breakout() : px(10), by(12), bx(0), dx(1), dy(1), sx(3), sy(3), playing(true), paddle("--------") {
+Breakout::Breakout() : px(10), by(12), bx(0), dx(1), dy(1), sx(3), sy(3), paddle("--------") {
     getmaxyx(stdscr, my, mx);
     blocks.resize(5);
 
@@ -49,7 +45,7 @@ void Breakout::checkBlock() {
     }
 }
 
-void Breakout::move() {
+bool Breakout::move() {
     checkBlock();
 
     bx += dx;
@@ -71,14 +67,19 @@ void Breakout::move() {
         by = my - 2;
          dy = -std::abs(dy);
     } if (by > my) {
-        finish();
+        return false;
     }
+    return true;
 }
 
-void Breakout::loop() {
-    while(playing) {
+void Breakout::loop(std::stop_token st) {
+    while(!st.stop_requested()) {
         draw();
-        move();
+
+        if(!move()) {
+            break;
+        }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }
 
@@ -120,8 +121,4 @@ void Breakout::setX(Type type, int x) {
 
 std::string Breakout::getPaddle() {
     return paddle;
-}
-
-void Breakout::finish() {
-    playing = false;
 }

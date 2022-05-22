@@ -1,5 +1,11 @@
+#pragma once
+
 #include <string>
 #include <vector>
+#include <cmath>
+#include <thread>
+#include <stop_token>
+#include <ncurses.h>
 
 enum class Type {
     Ball,
@@ -11,8 +17,7 @@ class Breakout {
 public:
     Breakout();
 
-    void loop();
-    void finish();
+    void loop(std::stop_token st);
     
     int getX(Type type);
     void setX(Type type, int x);
@@ -20,7 +25,6 @@ public:
     std::string getPaddle();
 
 private:
-    bool playing;
     int mx, my;
     int bx, by;
     int px, py;
@@ -30,7 +34,7 @@ private:
     std::vector<std::vector<bool>> blocks;
 
     void draw();
-    void move();
+    bool move();
     void checkBlock();
     bool isBlock(int x, int y);
 };

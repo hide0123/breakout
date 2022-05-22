@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <thread>
+#include <functional>
 
 #include "breakout.hpp"
 
@@ -31,12 +32,11 @@ int main() {
     keypad(stdscr, TRUE);
 
     Breakout bo;
-    auto game = std::thread([&bo] {bo.loop();});
+    std::jthread game(std::bind_front(&Breakout::loop, &bo));
 
     checkKey(bo);
 
     // End processing
-    bo.finish();
-    game.join();
+    game.request_stop();
     endwin();
 }
