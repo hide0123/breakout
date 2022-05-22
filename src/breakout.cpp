@@ -63,7 +63,7 @@ bool Breakout::move() {
         bx = mx - 1;
         dx = -std::abs(dx);
     }
-    if (by > my - 2 && bx > px - 1 && bx < px + paddle.length() + 1) {
+    if (by > my - 2 && bx > px - 1 && bx < px + paddle.size() + 1) {
         by = my - 2;
          dy = -std::abs(dy);
     } if (by > my) {
@@ -90,35 +90,13 @@ void Breakout::loop(std::stop_token st) {
     }
 }
 
-int Breakout::getX(Type type) {
-    switch(type) {
-        case Type::Ball:
-            return bx;
-        case Type::Paddle:
-            return px;
-        case Type::Max:
-            return mx;
-        default:
-            return -1;
-    }
-}
+void Breakout::checkKey() {
+    int key;
 
-void Breakout::setX(Type type, int x) {
-    switch(type) {
-        case Type::Ball:
-            this->bx = x;
-            break;
-        case Type::Paddle:
-            this->px = x;
-            break;
-        case Type::Max:
-            this->mx = x;
-            break;
-        default:
-            break;
+    while ((key = getch()) != 'q') {
+        switch(key) {
+            case KEY_LEFT: if(px > 0) px--; break;
+            case KEY_RIGHT: if(px < mx - paddle.size()) px++; break;
+        }
     }
-}
-
-std::string Breakout::getPaddle() {
-    return paddle;
 }

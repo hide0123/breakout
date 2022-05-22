@@ -7,27 +7,17 @@
 #include <stop_token>
 #include <ncurses.h>
 
-enum class Type {
-    Ball,
-    Paddle,
-    Max
-};
-
 class Breakout {
 public:
     Breakout();
 
     void loop(std::stop_token st);
-    
-    int getX(Type type);
-    void setX(Type type, int x);
-
-    std::string getPaddle();
+    void checkKey();
 
 private:
+    int px;
     int mx, my;
     int bx, by;
-    int px, py;
     int dx, dy;
     int sx, sy;
     std::string paddle;
