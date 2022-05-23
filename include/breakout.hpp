@@ -20,6 +20,7 @@ private:
     int dx = 1, dy = 1; // ball difference per frame
     int sx = 3, sy = 3; // space between walls and blocks
 
+    int score = 0;
     int blockHeight = 5;
 
     const char* paddle = "--------";

@@ -14,6 +14,7 @@ void Breakout::draw() {
     getmaxyx(stdscr, my, mx);
     mvprintw(my - 1, px, paddle);
     mvprintw(by, bx, "O");
+    mvprintw(0, 0, "Score: %d", score);
 
     for(int i = 0; i < blocks.size(); i++) {
         for(int j = 0; j < blocks.at(i).size(); j++) {
@@ -41,12 +42,14 @@ void Breakout::checkBlock() {
     if(isBlock(bx + dx, by)) {
         blocks.at(by - sy).at(bx + dx - sx) = true;
         dx = -dx;
+        score++;
     }
 
     // y
     if(isBlock(bx, by + dy)) {
         blocks.at(by + dy - sy).at(bx - sx) = true;
         dy = -dy;
+        score++;
     }
 }
 
