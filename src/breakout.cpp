@@ -6,7 +6,7 @@ Breakout::Breakout() {
     bx = px + sizeof(paddle) / 2;
     by = my - 2;
     
-    blocks.assign(blockHeight, std::vector<bool>(mx - sx * 2));
+    blocks.assign(blockHeight, std::basic_string<bool>(mx - sx * 2, true));
 }
 
 void Breakout::draw() {
@@ -18,7 +18,7 @@ void Breakout::draw() {
 
     for(int i = 0; i < blocks.size(); i++) {
         for(int j = 0; j < blocks.at(i).size(); j++) {
-            if(!blocks.at(i).at(j)) {
+            if(blocks.at(i).at(j)) {
                 mvprintw(i + sy, j + sx, "#");
             }
         }
@@ -34,20 +34,20 @@ bool Breakout::isBlock(int x, int y) {
     x -= sx;
     y -= sy;
 
-    return x >= 0 && x < blocks.at(0).size() && y >= 0 && y < blocks.size() && !blocks.at(y).at(x);
+    return x >= 0 && x < blocks.at(0).size() && y >= 0 && y < blocks.size() && blocks.at(y).at(x);
 }
 
 void Breakout::checkBlock() {
     // x
     if(isBlock(bx + dx, by)) {
-        blocks.at(by - sy).at(bx + dx - sx) = true;
+        blocks.at(by - sy).at(bx + dx - sx) = false;
         dx = -dx;
         score++;
     }
 
     // y
     if(isBlock(bx, by + dy)) {
-        blocks.at(by + dy - sy).at(bx - sx) = true;
+        blocks.at(by + dy - sy).at(bx - sx) = false;
         dy = -dy;
         score++;
     }

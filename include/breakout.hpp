@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <cmath>
 #include <thread>
@@ -24,7 +25,7 @@ private:
     int blockHeight = 5;
 
     const char* paddle = "--------";
-    std::vector<std::vector<bool>> blocks;
+    std::vector<std::basic_string<bool>> blocks;
 
     void draw();
     bool move();
