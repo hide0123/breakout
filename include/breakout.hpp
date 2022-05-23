@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 #include <cmath>
 #include <thread>
@@ -15,12 +14,13 @@ public:
     void checkKey();
 
 private:
-    int px;
-    int mx, my;
-    int bx, by;
-    int dx, dy;
-    int sx, sy;
-    std::string paddle;
+    int mx, my; // max size
+    int px = 10; // paddle size
+    int bx = 0, by = 12; // ball position
+    int dx = 1, dy = 1; // ball difference per frame
+    int sx = 3, sy = 3; // space between walls and blocks
+
+    const char* paddle = "--------";
     std::vector<std::vector<bool>> blocks;
 
     void draw();

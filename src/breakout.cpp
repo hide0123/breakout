@@ -1,10 +1,10 @@
 #include "breakout.hpp"
 
-Breakout::Breakout() : px(10), by(12), bx(0), dx(1), dy(1), sx(3), sy(3), paddle("--------") {
+Breakout::Breakout() {
     getmaxyx(stdscr, my, mx);
     blocks.resize(5);
 
-    for(auto &row : blocks) {
+    for(auto& row : blocks) {
         row.resize(mx - sx * 2);
     }
 }
@@ -12,7 +12,7 @@ Breakout::Breakout() : px(10), by(12), bx(0), dx(1), dy(1), sx(3), sy(3), paddle
 void Breakout::draw() {
     clear();
     getmaxyx(stdscr, my, mx);
-    mvprintw(my - 1, px, paddle.c_str());
+    mvprintw(my - 1, px, paddle);
     mvprintw(by, bx, "O");
 
     for(int i = 0; i < blocks.size(); i++) {
@@ -30,15 +30,20 @@ void Breakout::draw() {
 }
 
 bool Breakout::isBlock(int x, int y) {
-    return x - sx >= 0 && x - sx < blocks.at(0).size() && y - sy >= 0 && y - sy < blocks.size() && !blocks.at(y - sy).at(x - sx);
+    x -= sx;
+    y -= sy;
+
+    return x >= 0 && x < blocks.at(0).size() && y >= 0 && y < blocks.size() && !blocks.at(y).at(x);
 }
 
 void Breakout::checkBlock() {
+    // x
     if(isBlock(bx + dx, by)) {
         blocks.at(by - sy).at(bx + dx - sx) = true;
         dx = -dx;
     }
 
+    // y
     if(isBlock(bx, by + dy)) {
         blocks.at(by + dy - sy).at(bx - sx) = true;
         dy = -dy;
@@ -63,7 +68,7 @@ bool Breakout::move() {
         bx = mx - 1;
         dx = -std::abs(dx);
     }
-    if (by > my - 2 && bx > px - 1 && bx < px + paddle.size() + 1) {
+    if (by > my - 2 && bx > px - 1 && bx < px + sizeof(paddle) + 1) {
         by = my - 2;
          dy = -std::abs(dy);
     } if (by > my) {
@@ -85,7 +90,7 @@ void Breakout::loop(std::stop_token st) {
 
     if (by > my) {
         char msg[] = "GAME OVER! (Press q to quit)";
-        mvprintw(my/2, mx/2- (sizeof(msg)/2), "%s", msg);
+        mvprintw(my / 2, mx / 2 - (sizeof(msg) / 2), "%s", msg);
         refresh();
     }
 }
@@ -96,7 +101,7 @@ void Breakout::checkKey() {
     while ((key = getch()) != 'q') {
         switch(key) {
             case KEY_LEFT: if(px > 0) px--; break;
-            case KEY_RIGHT: if(px < mx - paddle.size()) px++; break;
+            case KEY_RIGHT: if(px < mx - sizeof(paddle)) px++; break;
         }
     }
 }
