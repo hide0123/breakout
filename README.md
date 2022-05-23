@@ -16,3 +16,12 @@ mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug
 make
 ```
+
+## Usage
+
+```bash
+./breakout
+```
+
+## License
+MIT
