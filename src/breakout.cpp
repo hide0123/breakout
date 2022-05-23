@@ -2,11 +2,11 @@
 
 Breakout::Breakout() {
     getmaxyx(stdscr, my, mx);
-    blocks.resize(5);
 
-    for(auto& row : blocks) {
-        row.resize(mx - sx * 2);
-    }
+    bx = px + sizeof(paddle) / 2;
+    by = my - 2;
+    
+    blocks.assign(blockHeight, std::vector<bool>(mx - sx * 2));
 }
 
 void Breakout::draw() {
